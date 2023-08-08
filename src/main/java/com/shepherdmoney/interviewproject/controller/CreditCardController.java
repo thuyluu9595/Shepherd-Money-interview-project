@@ -24,7 +24,11 @@ public class CreditCardController {
 
     // TODO: wire in CreditCard repository here (~1 line)
     @Autowired
-    private CreditCardRepository creditCardRepository;
+    private final CreditCardRepository creditCardRepository;
+
+    public CreditCardController(CreditCardRepository creditCardRepository) {
+        this.creditCardRepository = creditCardRepository;
+    }
 
     @PostMapping("/credit-card")
     public ResponseEntity<Integer> addCreditCardToUser(@RequestBody AddCreditCardToUserPayload payload) {
@@ -55,7 +59,7 @@ public class CreditCardController {
         //       if the user has no credit card, return empty list, never return null
 
         // Find all credit cards by user id
-        List<CreditCard> creditCards = creditCardRepository.findAllByUserId(userId);
+        List<CreditCard> creditCards = creditCardRepository.findAllByOwnerId(userId);
 
         // Map CreditCard objects to CreditCardView object and return as list
         List<CreditCardView> creditCardViews = creditCards.stream()
@@ -73,7 +77,7 @@ public class CreditCardController {
         //       If so, return the user id in a 200 OK response. If no such user exists, return 400 Bad Request
 
         // Find user by credit card number
-        Optional<User> user = creditCardRepository.findUserByCreditCardNumber(creditCardNumber);
+        Optional<User> user = creditCardRepository.findUserByNumber(creditCardNumber);
 
         // Check if the user exists
         if (user.isEmpty()) {

@@ -28,7 +28,7 @@ public class CreditCard {
 
     // TODO: Credit card's owner. For detailed hint, please see User class
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User owner;
     // TODO: Credit card's balance history. It is a requirement that the dates in the balanceHistory 
     //       list must be in chronological order, with the most recent date appearing first in the list. 
@@ -40,7 +40,7 @@ public class CreditCard {
     //         {date: '2023-04-11', balance: 1000},
     //         {date: '2023-04-10', balance: 800}
     //       ]
-    @OneToMany(mappedBy = "creditCard", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<BalanceHistory> balanceHistory = new ArrayList<>();
 
     public CreditCard(String issuanceBank, String number, User owner) {
